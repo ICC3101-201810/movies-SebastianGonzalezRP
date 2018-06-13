@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClassLibrary2;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Movies
 {
@@ -45,6 +47,13 @@ namespace Movies
             peliculas.Add(new Pelicula("Transformers 3", "Michael Bay", 2012, "Autobots2", 3530000, estudios[1]));
             peliculas.Add(new Pelicula("Star Wars 8", "NIDEAD", 2017, "Bad Saga", 2830000, estudios[3]));
             peliculas.Add(new Pelicula("Cenicienta", "Diseny", 1930, "Princesa", 250000, estudios[3]));
+
+            BD = new BaseDatos(personas,peliculas,estudios,peliculaActores,peliculaProductors);
+
+            BinaryFormatter formattere = new BinaryFormatter();
+            Stream miStreame = new FileStream("BD.bin", FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+            formattere.Serialize(miStreame, BD);
+            miStreame.Close();
         }
 
         private void BPelicula_Click(object sender, EventArgs e)
